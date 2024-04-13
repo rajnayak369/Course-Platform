@@ -75,16 +75,17 @@ Recommendation for parallel course enrollment is given in two kinds
 ### Parallel courses to choose from path of enrolled course:
 1. In the above example when we personalized path using user details we came across a list of Independent courses found in the path which can be taken in parallel. This given as first line recommendations. parallel learning of the Independent courses which are in the course path helps us to finish the enrolled course faster.
    - Recommended parallel courses will be : { HTML, Python}
-2. Using get_personalized_enrollable_courses method, personalized recommendations for enrolling in courses are provided based on the user's completed courses and area of interests. 
-   - The method iterates through a list of potential courses to consider.
-   - It checks if a course has no outstanding prerequisites and has not been completed by the user. If these conditions are met, the course is marked as enrollable.
-   - If a course has prerequisites, it determines if all of its prerequisites have been completed. If so, the course is marked as enrollable.
-   - Courses aligned with the user's area of interests are prioritized and shown first in the list
-   - Independent Courses from all available courses are
-     - { HTML, CSS, Python, English, Java, French} 
-     - updated : { HTML, Python, Java, English, French} // CSS is finished by our user
-     - update: { HTML, Python, English, Java, French} // area of interests { HTML, Python, React, English} React is not considered as it is not independent. User still need to finish JavaScript.
-3. Final two lists are:
+### More Independent courses to choose:
+Using get_personalized_enrollable_courses method, personalized recommendations for enrolling in courses are provided based on the user's completed courses and area of interests. 
+1. The method iterates through a list of potential courses to consider.
+2. It checks if a course has no outstanding prerequisites and has not been completed by the user. If these conditions are met, the course is marked as enrollable.
+3. If a course has prerequisites, it determines if all of its prerequisites have been completed. If so, the course is marked as enrollable.
+4. Courses aligned with the user's area of interests are prioritized and shown first in the list
+5. Independent Courses from all available courses are
+   - { HTML, CSS, Python, English, Java, French} 
+   - updated : { HTML, Python, Java, English, French} // CSS is finished by our user
+   - update: { HTML, Python, English, Java, French} // area of interests { HTML, Python, React, English} React is not considered as it is not independent. User still need to finish JavaScript.
+### Final two lists are:
    - { HTML, Python} // Recommended as related to enrolled course path
    - { HTML, Python, English, Java, French} // based on user interests
 
