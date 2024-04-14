@@ -70,4 +70,8 @@ Consistent hashing is employed to distribute video streams across multiple serve
 ### Redundancy and Fault tolerance
 Encoders are designed for redundancy and load balancing to ensure high availability and efficient utilization of resources. Sharding is used to launch multiple Streaming Services. Fail over mechanism is implemented in them. Amazon S3 and CloudFront makes the system reliable to growing user requests.
 
-
+## Trade-offs
+- Decoupling vs costs: Using a message queue introduces a tradeoff between the benefits of decoupling components and the associated costs.
+- Latency vs Quality: Adaptive bitrate streaming helps adjust quality based on user bandwidth, but higher quality streams often come with higher latency.
+- Security vs. Performance: Implementing strong security measures (encryption) might add some processing overhead, potentially affecting performance.
+- Real-time vs quality: HLS/DASH are relatively lower quality connections as compared to RTMP, it's a trade-off for real-time over quality
