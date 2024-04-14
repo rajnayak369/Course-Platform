@@ -1,5 +1,14 @@
 # Course Platform
 
+## DEMO
+Link : <a href="https://educational-course-platform-305a48361bd8.herokuapp.com/">Educational-Platform </a>
+
+I have build a demo web application for this project using Flask for backend, React for frontend and hosted it on Heroku.
+Github repository for this can be found at <a href="https://github.com/rajnayak369/Flask-Course-Platform">Flask-Course-Platform</a>
+
+Note: Main purpose of this application is for testing. The application isn't optimised yet needs a lots of code improvements and refactoring.
+
+
 ## Overview
 The Course Platform is a python based system designed to facilitate online learning to users by offering courses, generating personalized learning paths for seamless user Navigation while optimising course competition time, accommodating parallel course enrolment and managing circular dependencies. 
 
