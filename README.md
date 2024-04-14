@@ -25,12 +25,6 @@ The Course Platform is a python based system designed to facilitate online learn
   <img src="flowchart.png" alt="Alt Text" width="400">
 </p>
 
-## Platform Requirements
-1. Efficiently Resolves Course Dependency Resolution
-2. Optimize Course Path and Completion Time
-3. Personalized Learning Path Generation
-4. Recommend Parallel Course Enrollment
-
 ## Classes
 1. Courses: A Course class stores course details like name, level, duration and prerequisites. Set data structure is used to define prerequisites to eliminate duplicates and  for efficient membership checks (O(1)). This allows for quick verification of whether a course has a specific prerequisite completed.
 2. User: A User class stores user information like name, performance, completed courses, interested courses using sets for completed and interested courses. Sets enable efficient lookups (O(1)) to determine if a user has completed a specific course or expressed interest in a particular area.
