@@ -21,8 +21,12 @@ The Course Platform is a python based system designed to facilitate online learn
 3. Readability, Refactoring, and Code Redundancy: Throughout the development process, DRY is consistently applied to avoid unnecessary duplication of code and promote a more maintainable and efficient codebase. Thus, reducing redundancy and promoting code reusability.
 4. Error Handling: Exception handling mechanisms are implemented to gracefully handle errors, enhancing the robustness and reliability of the code.
 
+
 ![Alt Text](platform_flowchart.png)
 
+<p align="center">
+  <img src="flowchart.png" alt="Alt Text" width="400">
+</p>
 
 ## Platform Requirements
 1. Efficiently Resolves Course Dependency Resolution
