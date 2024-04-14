@@ -86,7 +86,7 @@ Overall, this two-step approach ensures that the generated learning paths are no
    - Final optimised personal path and duration Python-> HTML-> JavaScript-> Django (30 hrs)
 
 ## Parallel Course Enrollment:
-Recommendation for parallel course enrollment is given in two kinds
+Recommendation for parallel course enrollment is generated in two ways.
 
 ### Parallel courses to choose from path of enrolled course:
 1. In the above example when we personalized path using user details we came across a list of Independent courses found in the path which can be taken in parallel. This given as first line recommendations. parallel learning of the Independent courses which are in the course path helps us to finish the enrolled course faster.

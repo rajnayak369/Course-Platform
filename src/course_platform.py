@@ -30,6 +30,7 @@ class Platform:
             if prerequisite not in self.courses:
                 raise ValueError(f"Prerequisite '{prerequisite}' not found")
             self.prerequisite_map[course_name].append(prerequisite)
+        # Check for circular dependencies using enroll_helper which implements topological sort.
         regular_course_path, personalized_course_path = self._can_enroll_helper(course_name, set(), set(),set())
         if not regular_course_path:
             del self.courses[course_name]
@@ -40,6 +41,15 @@ class Platform:
         course.add_prerequisite(prerequisites)  # Add prerequisite to the course object
 
     def update_completed_list(self, completed_courses: set):
+        """
+            Update the list of completed courses and recursively add their prerequisites.
+
+            Args:
+                completed_courses (set): A set containing the courses that have been completed.
+
+            Returns:
+                None
+        """
         added_courses = set()  # Set to keep track of courses that have been added
 
         # Function to recursively add prerequisites
