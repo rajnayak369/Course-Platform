@@ -26,8 +26,8 @@ def get_path():
         course_path, duration, parallel_courses = platform.course_enroll(course_name, user.completed_courses,
                                                                          user.interested_courses, user.performance)
         if course_path:
-            print("Optimised path for ", course_name, "->", course_path, "and duration ", duration)
-            print("parallel courses you can take from the above personalised path are ", parallel_courses)
+            print("Personalised path for ", course_name, "->", course_path, "and duration ", duration)
+            print("Parallel courses you can take from the above personalised path are ", parallel_courses)
         else:
             print(f"You cannot enroll in '{course_name}' yet. it has cycle")
 

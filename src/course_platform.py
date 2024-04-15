@@ -81,17 +81,17 @@ class Platform:
         # Track Processed courses to avoid processing it again if a different prerequisite lead to the same node
         processed = set()
         self.update_completed_list(completed)
-        # Check for circular dependencies using enroll_helper which implements topological sort and returns the regular and personalised paths
-        personalized_course_path = self._can_enroll_helper(course_name, self.prerequisite_map[course_name], visited,
+        # Check for dependencies using enroll_helper which implements topological sort and returns personalised path
+        optimised_course_path = self._can_enroll_helper(course_name, self.prerequisite_map[course_name], visited,
                                                            processed,
                                                            completed)
-        if not personalized_course_path:
+        if not optimised_course_path:
             raise ValueError(
                 f"Course '{course_name}' and its prerequisites has been already completed by the user.")
         # print regular_course_path
         print("Initial course path: ", self.regular_path[course_name], "and duration",
               sum([self.courses[c].duration for c in self.regular_path[course_name]]))
-        personalized_course_path, parallel_courses = self._generate_personalized_learning_path(personalized_course_path,
+        personalized_course_path, parallel_courses = self._generate_personalized_learning_path(optimised_course_path,
                                                                                                area_interests,
                                                                                                completed,
                                                                                                performance)
