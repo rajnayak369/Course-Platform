@@ -9,7 +9,7 @@ def get_path():
     try:
         platform = Platform()
         platform.add_course("HTML", 1, 8)
-        platform.add_course("CSS", 2, 12, {"HTML"})
+        platform.add_course("CSS", 2, 12)
         platform.add_course("JavaScript", 4, 16, {"HTML", "CSS"})
         platform.add_course("Python", 3, 10)
         platform.add_course("Java", 3, 10)
@@ -17,8 +17,9 @@ def get_path():
         platform.add_course("Django", 5, 21, {"JavaScript", "Python"})
 
         user = User("Sairaj")
-        user.add_completed_course("JavaScript")
+        user.add_completed_course("HTML")
         user.interested_courses = {"Java", "CSS", "Python"}
+        user.performance = 3
 
         # Check if user can enroll in a course
         course_name = "Django"
@@ -33,7 +34,7 @@ def get_path():
         # Get all enrollable courses
         enrollable_courses = platform.get_personalized_enrollable_courses(user.completed_courses,
                                                                           user.interested_courses)
-        print(f"Enrollable Courses: {enrollable_courses}")
+        print(f"Enrollable Independent Courses: {enrollable_courses}")
     except Exception as e:
         print("Error occurred: ", e)
 

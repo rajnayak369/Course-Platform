@@ -1,3 +1,4 @@
+import collections
 import heapq
 from course import Course
 
@@ -8,7 +9,8 @@ class Platform:
         Initializes a new Platform object.
         """
         self.courses = {}  # Dictionary to store courses with name as key and Course object as value
-        self.prerequisite_map = {}  # Graph representation with courses as keys and list of dependent courses as values
+        self.prerequisite_map = collections.defaultdict(list)  # Graph representation with courses as keys and list of dependent courses as values
+        self.regular_path = {}  # Dictionary to store courses with name as key and regular path (irrespective of user) as value
 
     def add_course(self, course_name: str, level: int, duration: int, prerequisites={}):
         """
@@ -23,21 +25,19 @@ class Platform:
             raise ValueError("Level must be an integer between 1 and 5")
         if duration <= 0:
             raise ValueError("Duration must be a positive integer")
+
+        # Check for circular dependencies using enroll_helper which implements topological sort.
+        regular_course_path = self._can_enroll_helper(course_name, prerequisites, set(), set(), set())
+        self.regular_path[course_name] = regular_course_path
+        # print(course_name, self.regular_path[course_name])
+
         course = Course(course_name, level, duration)
         self.courses[course_name] = course
-        self.prerequisite_map[course_name] = []
         for prerequisite in prerequisites:
             if prerequisite not in self.courses:
+                self.prerequisite_map[course_name].clear()
                 raise ValueError(f"Prerequisite '{prerequisite}' not found")
             self.prerequisite_map[course_name].append(prerequisite)
-        # Check for circular dependencies using enroll_helper which implements topological sort.
-        regular_course_path, personalized_course_path = self._can_enroll_helper(course_name, set(), set(),set())
-        if not regular_course_path:
-            del self.courses[course_name]
-            del self.prerequisite_map[course_name]
-            raise ValueError(
-                f"Course '{course_name}' circular dependency detected. Consider revising course prerequisites.")
-
         course.add_prerequisite(prerequisites)  # Add prerequisite to the course object
 
     def update_completed_list(self, completed_courses: set):
@@ -81,19 +81,16 @@ class Platform:
         # Track Processed courses to avoid processing it again if a different prerequisite lead to the same node
         processed = set()
         self.update_completed_list(completed)
-        print(completed)
         # Check for circular dependencies using enroll_helper which implements topological sort and returns the regular and personalised paths
-        regular_course_path, personalized_course_path = self._can_enroll_helper(course_name, visited, processed,
-                                                                                completed)
-        if not regular_course_path:
-            raise ValueError(
-                f"Course '{course_name}' circular dependency detected. Consider revising course prerequisites.")
+        personalized_course_path = self._can_enroll_helper(course_name, self.prerequisite_map[course_name], visited,
+                                                           processed,
+                                                           completed)
         if not personalized_course_path:
             raise ValueError(
                 f"Course '{course_name}' and its prerequisites has been already completed by the user.")
-        # return regular_course_path
-        print("Initial course path: ", regular_course_path, "and duration",
-              sum([self.courses[c].duration for c in regular_course_path]))
+        # print regular_course_path
+        print("Initial course path: ", self.regular_path[course_name], "and duration",
+              sum([self.courses[c].duration for c in self.regular_path[course_name]]))
         personalized_course_path, parallel_courses = self._generate_personalized_learning_path(personalized_course_path,
                                                                                                area_interests,
                                                                                                completed,
@@ -102,41 +99,37 @@ class Platform:
         return personalized_course_path, sum(
             [self.courses[c].duration for c in personalized_course_path]), parallel_courses
 
-    def _can_enroll_helper(self, course_name: str, visited: set, processed: set, completed: set):
+    def _can_enroll_helper(self, course_name: str, prerequisite: list, visited: set, processed: set, completed: set):
         """
        Generates a personalized learning path for a user based on completed courses using topological sort.
 
        Returns:
            Tuple: A tuple containing the regular learning path and personalized learning path.
        """
-        if course_name in visited:
-            return []  # Cycle detected, return empty list
+        if not course_name or course_name in visited:
+            raise ValueError(
+                f"Course '{course_name}' circular dependency detected. Consider revising course prerequisites.")  # Cycle detected, return empty list
         visited.add(course_name)
-        regular_course_path = []  # Regular course path which is common for every user
         personalized_course_path = []  # Personalized course path for this user
-        for dependent in self.prerequisite_map[course_name]:
+        for dependent in prerequisite:
             # Recursively check if dependent courses can be enrolled in
             if dependent not in processed:
-                start_courses_for_dependent, start_personalized_course_path = self._can_enroll_helper(dependent,
-                                                                                                      visited,
-                                                                                                      processed,
-                                                                                                      completed)
+                pre = self.prerequisite_map[dependent]
+                start_courses_for_dependent = self._can_enroll_helper(dependent, pre,
+                                                                      visited,
+                                                                      processed,
+                                                                      completed)
                 if start_courses_for_dependent:
                     # If dependent can be enrolled in, add it as a potential starting point
-                    regular_course_path.extend(start_courses_for_dependent)
-                    personalized_course_path.extend(start_personalized_course_path)
-                else:
-                    # If dependent has a circular dependency, return empty list
-                    return []
-        regular_course_path.append(course_name)
+                    personalized_course_path.extend(start_courses_for_dependent)
+
         # if course_name not in completed:
         if course_name not in completed:
             personalized_course_path.append(course_name)
         # Remove course_name from visited only after processing all dependents
         visited.remove(course_name)
         processed.add(course_name)
-        return regular_course_path, personalized_course_path
-
+        return personalized_course_path
 
     def _generate_personalized_learning_path(self, courses: list, area_interests: set, completed: set,
                                              performance: float):
