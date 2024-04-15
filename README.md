@@ -57,7 +57,7 @@ Raise an error if any prerequisite course is missing.
 After verifying prerequisites, I use the the _can_enroll_helper method to check for circular dependencies using graph-based data structure, where courses are nodes and prerequisites are edges. This method implements a depth-first search (DFS) algorithm to traverse the prerequisite graph and detect cycles. If a cycle is found, a ValueError is raised and the course addition is aborted.  .
 
 ### Enroll Course
-   - #### Circular Dependency Check:
+   - #### Course Completion Check:
 When enrolling a user in a course, I perform a check using the _can_enroll_helper method. This check helps to verify if that the course is completed by user or not. If completed, I'm raising a ValueError and preventing the course to be enrolled.
 
 ## Personalized path
